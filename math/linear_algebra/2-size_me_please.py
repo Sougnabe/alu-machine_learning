@@ -5,9 +5,9 @@ documented
 
 
 def matrix_shape(matrix):
-'''
-documented
-'''
+    '''
+    documented
+    '''
     shape = []
     while isinstance(matrix, list):
         shape.append(len(matrix))
