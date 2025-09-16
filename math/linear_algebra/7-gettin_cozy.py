@@ -7,7 +7,7 @@ along a specified axis
 
 def cat_matrices2D(mat1, mat2, axis=0):
     """
-    mat1 and mat2 are the matrices to be concatenated
+    Concatenate two 2D matrices along the given axis
     """
     if axis == 0:
         if len(mat1[0]) != len(mat2[0]):
@@ -19,5 +19,4 @@ def cat_matrices2D(mat1, mat2, axis=0):
             return None
         return [r1[:] + r2[:] for r1, r2 in zip(mat1, mat2)]
 
-    else:
-        return None
+    return None
