@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-"""Module that provides a function to slice a matrix along given axes
-"""
-
 def np_slice(matrix, axes={}):
     """Slice a matrix along given axes"""
     slices = []
