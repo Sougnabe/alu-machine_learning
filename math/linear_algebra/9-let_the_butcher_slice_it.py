@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
+"""Module that provides a function to slice a matrix along given axes
 """
-Demonstrates slicing of 2D matrices to extract sub-matrices
-"""
-matrix = [[1, 2, 3, 4, 5, 6],
-          [7, 8, 9, 10, 11, 12],
-          [13, 14, 15, 16, 17, 18],
-          [19, 20, 21, 22, 23, 24]]
-mat1 = matrix[1:3]
-mat2 = [row[2:4] for row in matrix]
-mat3 = [row[3:] for row in matrix[1:]]
-print("The middle two rows of the matrix are:\n{}".format(mat1))
-print("The middle two columns of the matrix are:\n{}".format(mat2))
-print("The bottom-right, square, 3x3 matrix is:\n{}".format(mat3))
+
+def np_slice(matrix, axes={}):
+    """Slice a matrix along given axes"""
+    slices = []
+    for i in range(len(matrix.shape)):
+        if i in axes:
+            slices.append(slice(*axes[i]))
+        else:
+            slices.append(slice(None))
+    return matrix[tuple(slices)]
