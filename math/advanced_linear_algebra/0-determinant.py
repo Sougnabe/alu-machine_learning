@@ -25,6 +25,5 @@ def determinant(matrix):
     det = 0
     for c in range(n):
         submatrix = [row[:c] + row[c+1:] for row in matrix[1:]]
-        det += ((-1) ** c) * matrix[0][c] * \
-               determinant(submatrix)
+        det += (((-1) ** c) * matrix[0][c] * determinant(submatrix))
     return det
