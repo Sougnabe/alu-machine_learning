@@ -6,7 +6,10 @@ Module that provides a function to calculate the determinant of a matrix
 
 def determinant(matrix):
     """Calculates the determinant of a square matrix"""
-    if not isinstance(matrix, list) or any(not isinstance(row, list) for row in matrix):
+    if (not isinstance(matrix, list)
+        or any(not isinstance(row, list) for row in matrix)):
+       raise TypeError("matrix must be a list of lists")
+
         raise TypeError("matrix must be a list of lists")
 
     if matrix == [[]]:
