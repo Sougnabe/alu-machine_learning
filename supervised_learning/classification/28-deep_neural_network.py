@@ -27,11 +27,11 @@ class DeepNeuralNetwork:
             raise ValueError("nx must be a positive integer")
         if not isinstance(layers, list) or len(layers) == 0:
             raise TypeError("layers must be a list of positive integers")
-        
+
         # Validate all layers are positive integers
         if not all(isinstance(layer, int) and layer > 0 for layer in layers):
             raise TypeError("layers must be a list of positive integers")
-        
+
         if activation not in ['sig', 'tanh']:
             raise ValueError("activation must be 'sig' or 'tanh'")
 
@@ -44,13 +44,13 @@ class DeepNeuralNetwork:
         for i in range(self.__L):
             if i == 0:
                 # First layer connects to input
-                self.__weights[f'W{i + 1}'] = (np.random.randn(layers[i], nx) *
-                                                np.sqrt(2 / nx))
+                self.__weights[f'W{i + 1}'] = (
+                    np.random.randn(layers[i], nx) * np.sqrt(2 / nx))
             else:
                 # Subsequent layers connect to previous layer
-                self.__weights[f'W{i + 1}'] = (np.random.randn(layers[i],
-                                               layers[i - 1]) *
-                                                np.sqrt(2 / layers[i - 1]))
+                self.__weights[f'W{i + 1}'] = (
+                    np.random.randn(layers[i], layers[i - 1]) *
+                    np.sqrt(2 / layers[i - 1]))
             # Initialize biases to 0
             self.__weights[f'b{i + 1}'] = np.zeros((layers[i], 1))
 
@@ -86,7 +86,7 @@ class DeepNeuralNetwork:
         """
         # Store input in cache
         self.__cache['A0'] = X
-        
+
         # Forward propagation through all layers
         for i in range(1, self.__L + 1):
             # Get weights and bias for current layer
@@ -94,10 +94,10 @@ class DeepNeuralNetwork:
             b = self.__weights[f'b{i}']
             # Get activation from previous layer
             A_prev = self.__cache[f'A{i - 1}']
-            
+
             # Calculate Z = W·A_prev + b
             Z = np.matmul(W, A_prev) + b
-            
+
             # Apply activation based on layer and activation type
             if i == self.__L:
                 # Softmax activation for output layer
@@ -109,10 +109,10 @@ class DeepNeuralNetwork:
                     A = 1 / (1 + np.exp(-Z))
                 else:  # tanh
                     A = np.tanh(Z)
-            
+
             # Store activation in cache
             self.__cache[f'A{i}'] = A
-        
+
         # Return final activation and cache
         return A, self.__cache
 
@@ -162,29 +162,29 @@ class DeepNeuralNetwork:
             alpha: learning rate
         """
         m = Y.shape[1]
-        
+
         # Backpropagation
         # Start with output layer
         A_L = cache[f'A{self.__L}']
         dZ = A_L - Y
-        
+
         # Go backwards through the layers
         for i in range(self.__L, 0, -1):
             A_prev = cache[f'A{i - 1}']
-            
+
             # Calculate gradients
             dW = (1 / m) * np.matmul(dZ, A_prev.T)
             db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
-            
+
             # Update weights and biases
             self.__weights[f'W{i}'] = self.__weights[f'W{i}'] - alpha * dW
             self.__weights[f'b{i}'] = self.__weights[f'b{i}'] - alpha * db
-            
+
             # Calculate dZ for previous layer (if not at first layer)
             if i > 1:
                 W = self.__weights[f'W{i}']
                 A = cache[f'A{i - 1}']
-                
+
                 # Use appropriate derivative based on activation function
                 if self.__activation == 'sig':
                     dZ = np.matmul(W.T, dZ) * A * (1 - A)
@@ -231,7 +231,7 @@ class DeepNeuralNetwork:
         for i in range(iterations + 1):
             # Forward propagation
             A, cache = self.forward_prop(X)
-            
+
             # Print and/or store cost at specified intervals
             if i == 0 or i == iterations or i % step == 0:
                 cost = self.cost(Y, A)
@@ -240,7 +240,7 @@ class DeepNeuralNetwork:
                 if graph:
                     costs.append(cost)
                     iterations_list.append(i)
-            
+
             # Perform gradient descent (except after last iteration)
             if i < iterations:
                 self.gradient_descent(Y, cache, alpha)
@@ -266,7 +266,7 @@ class DeepNeuralNetwork:
         # Add .pkl extension if not present
         if not filename.endswith('.pkl'):
             filename += '.pkl'
-        
+
         with open(filename, 'wb') as f:
             pickle.dump(self, f)
 
